@@ -6,15 +6,15 @@ import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-import ru.mail.polis.sort.BubbleSort;
 import ru.mail.polis.sort.Helper;
+import ru.mail.polis.sort.MergeSort;
 
 import java.util.concurrent.TimeUnit;
 
 @State(Scope.Thread)
-@BenchmarkMode(Mode.AverageTime)
+@BenchmarkMode(Mode.All)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
-public class BubbleSortBench {
+public class MergeSortBench {
 
     private int[] a;
 
@@ -25,20 +25,18 @@ public class BubbleSortBench {
 
     @Benchmark
     @OperationsPerInvocation(100)
-    public void measureBubbleSort(Blackhole bh) {
-        bh.consume(BubbleSort.sort(a));
-        bh.consume(BubbleSort.sort(Helper.gen(10000)));
-
+    public void measureMergeSort(Blackhole bh) {
+        bh.consume(MergeSort.sort(a));
     }
 
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
-                .include(BubbleSortBench.class.getSimpleName())
+                .include(MergeSortBench.class.getSimpleName())
                 .warmupIterations(5)
                 .measurementIterations(5)
                 .forks(1)
                 .build();
 
-            new Runner(opt).run();
+        new Runner(opt).run();
     }
 }

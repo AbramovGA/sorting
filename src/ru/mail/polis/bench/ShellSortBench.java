@@ -6,39 +6,36 @@ import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-import ru.mail.polis.sort.BubbleSort;
 import ru.mail.polis.sort.Helper;
+import ru.mail.polis.sort.ShellSort;
 
 import java.util.concurrent.TimeUnit;
 
 @State(Scope.Thread)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
-public class BubbleSortBench {
+public class ShellSortBench {
 
     private int[] a;
 
     @Setup(value = Level.Invocation)
     public void setUpInvocation() {
-        a = Helper.gen(1000);
+        a = Helper.gen(10000);
     }
 
     @Benchmark
-    @OperationsPerInvocation(100)
-    public void measureBubbleSort(Blackhole bh) {
-        bh.consume(BubbleSort.sort(a));
-        bh.consume(BubbleSort.sort(Helper.gen(10000)));
-
+    public void measureShellSort(Blackhole bh) {
+        bh.consume(ShellSort.sort(a));
     }
 
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
-                .include(BubbleSortBench.class.getSimpleName())
+                .include(ShellSortBench.class.getSimpleName())
                 .warmupIterations(5)
                 .measurementIterations(5)
                 .forks(1)
                 .build();
 
-            new Runner(opt).run();
+        new Runner(opt).run();
     }
 }

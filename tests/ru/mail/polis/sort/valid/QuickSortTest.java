@@ -8,8 +8,8 @@ import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import ru.mail.polis.sort.BubbleSort;
 import ru.mail.polis.sort.Helper;
+import ru.mail.polis.sort.QuickSort;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -18,7 +18,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 @RunWith(value = Parameterized.class)
-public class Tester {
+public class QuickSortTest {
 
     private static final Random r = ThreadLocalRandom.current();
 
@@ -29,7 +29,7 @@ public class Tester {
         }
     };
 
-    public static int[] gen(int n) {
+    private static int[] gen(int n) {
         int[] a = new int[n];
         for (int i = a.length - 1; i > 0; i--) {
             int j = r.nextInt(i + 1);
@@ -44,21 +44,21 @@ public class Tester {
     @Parameterized.Parameters(name = "{index}")
     public static Collection<int[]> data() {
         return Arrays.asList(new int[][]{
-            {0},
-            {0, 0, 0, 0},
-            {4, 3, 2, 1},
-            {0, 1, 1, 0},
-            {1},
-            {Integer.MAX_VALUE, 0, 0, Integer.MIN_VALUE},
-            gen(1),
-            gen(10),
-            gen(100),
-            gen(1000),
-            gen(10000),
+                {0},
+                {0, 0, 0, 0},
+                {4, 3, 2, 1},
+                {0, 1, 1, 0},
+                {1},
+                {Integer.MAX_VALUE, 0, 0, Integer.MIN_VALUE},
+                gen(1),
+                gen(10),
+                gen(100),
+                gen(1000),
+                gen(10000),
         });
     }
 
-    public boolean isSorted(int[] a) {
+    private boolean isSorted(int[] a) {
         boolean isSorted = true;
         for (int i = 0; i < a.length - 1 && isSorted; i++) {
             isSorted = a[i] <= a[i + 1];
@@ -67,8 +67,8 @@ public class Tester {
     }
 
     @Test
-    public void test01_checkBubbleSort() throws IOException {
-        Assert.assertTrue(isSorted(BubbleSort.sort(array)));
+    public void test01_checkQuickSort() throws IOException {
+        Assert.assertTrue(isSorted(QuickSort.sort(array,0,array.length-1)));
     }
 
 }
